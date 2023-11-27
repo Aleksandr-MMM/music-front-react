@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="30mm" height="30mm" version="1.0" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
+viewBox="0 0 30 30">
+
+ <g>
+   <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0.25s" repeatCount="indefinite"/>
+    <path fill="#99FFFF" d="M29 15c0,-8 -6,-14 -14,-14l0 2c6,0 12,5 12,12l2 0z"/>
+ </g>
+    <g>
+   <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0.5s" repeatCount="indefinite"/>
+        <path fill="#99FFFF" d="M29 15l-2 0c0,6 -5,12 -12,12l0 2c8,0 14,-6 14,-14z"/>
+ </g>
+    <g>
+   <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0.75s" repeatCount="indefinite"/>
+        <path fill="#99FFFF" d="M15 29c-8,0 -14,-6 -14,-14l2 0c0,6 5,12 12,12l0 2z"/>
+ </g>
+ <g>
+   <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="1s" repeatCount="indefinite"/>
+  <path fill="#99FFFF" d="M1 15c0,-8 6,-14 14,-14l0 2c-6,0 -12,5 -12,12l-2 0z"/>
+ </g>
+</svg>

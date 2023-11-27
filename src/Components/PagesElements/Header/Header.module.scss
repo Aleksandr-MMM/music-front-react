@@ -1,0 +1,7 @@
+@use '../../../style/SCSS/color';
+@use '../../../style/SCSS/mixins';
+.header{
+  @include mixins.authBorder;
+  padding: 10px;
+  background-color: color.$authWrapper;
+}

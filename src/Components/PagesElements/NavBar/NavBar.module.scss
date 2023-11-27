@@ -1,0 +1,15 @@
+$fontWeight: bolder;
+.nav {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  transition: all 0.3s ease-in;
+}
+
+.hideButton {
+  position: absolute;
+  right: -55px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+

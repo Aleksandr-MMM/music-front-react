@@ -1,0 +1,46 @@
+@use '../../../../style/SCSS/mixins';
+@use '../../../../style/SCSS/color';
+
+.wrapper {
+  display: flex;
+  &:nth-child(odd) {
+    margin-bottom: 10px;
+  }
+}
+.title {
+  $titleWidth: 250px;
+  word-wrap: break-word;
+  display: inline-block;
+  min-width: $titleWidth;
+  max-width: $titleWidth;
+  font-weight: bold;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.description {
+  padding: 0;
+  line-height: 1;
+  resize: none;
+  font-size: inherit;
+  overflow: hidden;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  background: none;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  &:hover {
+    cursor: pointer;
+    @include mixins.underlineText(color.$underlineText);
+    @include mixins.disappearanceAnimation();
+  }
+  &:focus {
+    cursor: text;
+    @include mixins.underlineText(color.$underlineText);
+  }
+  &:focus:hover {
+    animation: none;
+    cursor: text;
+    @include mixins.underlineText(color.$underlineText);
+  }
+}
