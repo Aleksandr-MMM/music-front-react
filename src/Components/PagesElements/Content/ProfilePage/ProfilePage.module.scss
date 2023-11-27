@@ -1,0 +1,10 @@
+@use '../../../../style/SCSS/color';
+@use '../../../../style/SCSS/mixins';
+.profileContent{
+    @include mixins.authBorder;
+    padding: 10px;
+    background-color: color.$authWrapper;
+}
+.userProfile{
+    display: flex;
+}

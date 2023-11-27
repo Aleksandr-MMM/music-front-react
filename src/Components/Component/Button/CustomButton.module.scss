@@ -1,0 +1,18 @@
+@use "../../../style/SCSS/color";
+
+.customButtonDefault {
+  $padding: 5px;
+  padding: $padding - 1 $padding;
+  background-color: color.$buttonBlue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: color.$buttonText;
+  font-size: 20px;
+  &:hover {
+    color: color.$buttonTextHover;
+  }
+}

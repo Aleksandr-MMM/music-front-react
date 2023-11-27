@@ -1,0 +1,51 @@
+// border
+$borderAuthColor:rgba(22, 164, 224, 0.9);
+$authLinkAni:black;
+$lightTheme_wrapper_button: grey;
+// buttons
+$buttonBlue:rgb(22, 164, 224, 0.9);
+$buttonTextHover:black;
+$buttonText:white;
+//link
+$linkActive:green;
+// error
+$formikError:red;
+//underlineText
+$underlineText:120deg, rgba(39, 167, 225, 1) 0%, rgba(0, 253, 254, 1);
+//page
+
+// AuthPage
+//$authWrapper:aliceblue;
+$authWrapper: rgba(240, 248, 255, 0.7);
+
+//Animation
+$authFloatingSquaresBg:linear-gradient(to left, #8f94fb, #4e54c8);
+$authFloatingSquares:rgba(random(255), random(255), random(255), 0.7);
+//@value blue_139_189_255: rgb(139,189,255);
+//@value black_40_40_40: rgb(40,40,40);
+//@value grey_152_150_138: rgb(152,150,138);
+//
+//@value lightTheme_text: rgb(255,255,255);
+//
+//@value lightTheme_wrapper_widget: rgb(182,182,182,0.7);
+//@value lightTheme_wrapper_widget_layer2: rgb(150,150,150,0.7);
+//
+//@value lightTheme_wrapper_button: grey;
+//
+//@value lightTheme_helpers_wrapper: rgba(0,13,156,.15);
+//@value lightTheme_helpers_text: #fff;
+//
+//@value lightTheme_links_text: #5265f6;
+//@value lightTheme_links_text_helpers: orange;
+//
+//@value user_message_wrapper_color: rgb(144,144,117,0.8);
+//
+//@value user_message_text_color: green;
+//@value user_message_date_color: rgb(50,50,50,0.7);
+//@value new_user_message: green;
+//
+//@value footer_bg: rgb(87,71,71);
+//@value footer_bg_linear_gradient: linear-gradient(180deg, rgba(87,71,71,1) 4%, rgba(60,48,50,1) 50%, rgba(42,27,32,1) 77%);
+//@value header_bg: rgb(43,133,204);
+//@value footer_bg_linear_gradient: linear-gradient(0deg, rgba(43,133,204,1) 0%, rgba(253,187,45,1) 100%);
+
