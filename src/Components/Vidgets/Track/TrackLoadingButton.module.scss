@@ -1,0 +1,8 @@
+@use "../../../style/commonStyle/mixins";
+
+.track {
+  width: 400px;
+  @include mixins.authBorder();
+  padding: 10px;
+  display: table;
+}

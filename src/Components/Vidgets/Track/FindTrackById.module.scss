@@ -1,0 +1,6 @@
+@use "../../../style/commonStyle/color";
+
+.description {
+  color: color.$borderAuthColor;
+  margin-bottom: 5px;
+}

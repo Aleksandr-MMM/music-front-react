@@ -1,0 +1,9 @@
+@use "../../../style/commonStyle/color";
+@use "../../../style/commonStyle/mixins";
+.track{
+  @include mixins.authBorder();
+  padding: 10px;
+  margin-bottom: 10px;
+  display: table;
+  margin-right: 10px;
+}
