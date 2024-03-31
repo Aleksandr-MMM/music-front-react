@@ -1,0 +1,12 @@
+@use '../../../style/commonStyle/mixins';
+.icon {
+  $size: calc(1px*var(--iconSize));
+  width: $size;
+  height: $size;
+  @include mixins.centerAlign();
+}
+
+
+
+
+

@@ -1,0 +1,14 @@
+@use '../SCSS/mixins';
+@use '../SCSS/color';
+$fontWeight: bolder;
+.link {
+    @include mixins.authLink(color.$buttonBlue);
+}
+.linkActive {
+    text-decoration:underline;
+    @include mixins.authLink(color.$linkActive);
+    @include mixins.authLinkAni(color.$linkActive,black);
+}
+
+
+

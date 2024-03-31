@@ -1,0 +1,155 @@
+@use './color';
+@use "sass:list";
+@use "sass:meta";
+// animations
+@mixin smoothAppearanceAni {
+  animation: ani 2.5s forwards;
+  @keyframes ani {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+@mixin authLinkAni($currentColor:orange,$animationColor:black) {
+  text-shadow: 1px 1px 2px $animationColor;
+  animation: pulsate 7s linear infinite;
+  @keyframes pulsate {
+    63% {
+      color:$currentColor;
+      text-shadow: 1px 1px 2px $animationColor;
+    }
+    81% {
+      color:$animationColor;
+      text-shadow: 1px 1px 2px $currentColor;
+    }
+    100% {
+      color:$currentColor;
+      text-shadow: 1px 1px 2px $animationColor;
+    }
+  }
+}
+@mixin authBgAnimation() {
+  animation: animate 25s linear infinite;
+  @keyframes animate {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+      border-radius: 0;
+    }
+    100% {
+      transform: translateY(-1000px) rotate(720deg);
+      opacity: 0;
+      border-radius: 50%;
+    }
+  }
+}
+@mixin jumpingWords($animation-delay,$animationTimer:3s,$font-size:40px) {
+  animation: jumpingSwordAni $animationTimer infinite;
+  animation-delay: $animation-delay;
+  @keyframes jumpingSwordAni {
+    0%, 40%, 100% {
+      transform: translateY(0)
+    }
+    20% {
+      transform: translateY(calc(-0.4 * $font-size))
+    }
+  }
+}
+@mixin disappearanceAnimation() {
+  animation-delay: 6s;
+  animation: disappearance 4s linear infinite;
+  @keyframes disappearance {
+    50% {
+      border-image: linear-gradient(120deg, rgba(39, 167, 225, 0) 0%, rgba(0, 253, 254, 0) 100%) 1 / 1 / 1;
+    }
+    100% {
+      border-image: linear-gradient(120deg, rgba(39, 167, 225, 1) 0%, rgba(0, 253, 254, 1) 100%) 1 / 1 / 1;
+    }
+  }
+}
+
+//authComponents
+@mixin authBorder($borderRadius:13px) {
+  border: 4px solid color.$borderAuthColor;
+  border-radius: $borderRadius;
+}
+@mixin authLink($color:white) {
+  color: $color;
+  padding: 5px;
+  font-weight: bolder;
+}
+@mixin authAnimationWrapper {
+  top: 0;
+  left: 0;
+  z-index: -1000;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+}
+@mixin authAnimationCircle($nth-childElements) {
+  @for $i from 1 to length($nth-childElements)+1 {
+    &:nth-child(#{$i}) {
+      left: list.nth(list.nth($nth-childElements, $i), 1);
+      width: list.nth(list.nth($nth-childElements, $i), 2);
+      height: list.nth(list.nth($nth-childElements, $i), 2);
+      animation-delay: list.nth(list.nth($nth-childElements, $i), 3);
+      animation-duration: list.nth(list.nth($nth-childElements, $i), 4);
+    }
+  }
+}
+@mixin underlineText($color) {
+  border-bottom: 3px solid;
+  border-image: linear-gradient($color) 1 / 1 / 1;
+}
+
+// burger
+@mixin burgerWrapper($left, $top) {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: $top;
+  left: $left;
+  transition-duration: 0.5s;
+}
+@mixin burgerIcon($bgColor,$height, $width,$top:30px) {
+  transition-duration: 0.5s;
+  position: absolute;
+  height: $height;
+  width: $width;
+  background-color: $bgColor;
+  top: $top;
+  content: "";
+}
+
+// textPlaceholder
+@mixin textPlaceholder($content: 'Копировать',$hover_color:black,$hover_background:none,$after_color:black,
+$after_background:none,) {
+  &:hover {
+    color: $hover_color;
+    cursor: pointer;
+    background: $hover_background;
+
+    &:after {
+      color: $after_color;
+      background: $after_background;
+      margin-top: -20px;
+      margin-left: 10px;
+      font-size: 20px;
+      position: absolute;
+      content: $content;
+    }
+  }
+}
+
+// audio
+@mixin progressBarAndSlider($bgColor) {
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0 0 1px #000000;
+  border-radius: 3px;
+  border: 1px solid #000000;
+  background: $bgColor;
+}

@@ -1,0 +1,24 @@
+@use '../../../../style/commonStyle/color';
+@use '../../../../style/commonStyle/mixins';
+.JumpingWords {
+  $animationTimer:calc(0.115s*var(--numberOfLettersJumpingWords));
+  $fontSize:calc(1*var(--fontSizeJumpingWords));
+  font-size: $fontSize;
+  $fontReflect:calc(-0.4*$fontSize);
+  -webkit-box-reflect: below $fontReflect linear-gradient(transparent, rgba(0,0,0,.2));
+  display: flex;
+  justify-content: center;
+  span {
+    font-family: 'Alfa Slab One', cursive;
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    $delay:calc(0.1s * var(--aniWords));
+    @include mixins.jumpingWords($delay,$animationTimer,$fontSize);
+  }
+}
+
+
+
+
+

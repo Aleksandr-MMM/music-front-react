@@ -1,0 +1,43 @@
+@use '../../../style/commonStyle/mixins';
+@use '../../../style/commonStyle/color';
+
+.menuWrapper {
+  position: relative;
+}
+
+.openMenu {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: -10px;
+  margin-right: -10px;
+  cursor: pointer;
+}
+
+.menuDefault {
+  @include mixins.smoothAppearanceAni(2s);
+  @include mixins.authBorder();
+  $padding: 5px;
+  width: 300px;
+  padding: $padding 15px $padding $padding;
+  background-color: color.$authWrapper;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: -$padding*3;
+  margin-right: -(4px+$padding*2);
+}
+.closeIcon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 2s;
+}
+
+.albumName {
+  cursor: default;
+}
+.addTrackInAlbumIcon{
+  cursor: pointer;
+  color: color.$buttonBlue;
+}
