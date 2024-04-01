@@ -1,40 +1,26 @@
-import {FC, useEffect, useState} from "react";
-import {getFile} from "../../../store/reducers/trackSlice";
-import {IFCPropsDispatch, IFCPropsId} from "../../../ITypes";
-import {useReduxSelector} from "../../../store/reduxStore";
-import {trackSelectors} from "../../../store/selectors";
-import {AudioPlayer} from "../AudioPlayer";
-import {
-    useTrackLoaderContainer
-} from "../../../Hooks/ContainerHooks/useTrackLoaderContainer";
+import {FC} from "react";
+import style from './TrackDescription.module.scss'
+import {trackSliceType} from "../../../store/reducers/trackSlice";
 
-type TrackLoaderPropsType = IFCPropsDispatch & { trackIndex: number }
-export const TrackLoader: FC<TrackLoaderPropsType> = (props) => {
-    const {dispatch, trackIndex} = props
-    const [isLoadingFile, loadingFile] = useState(false);
-    const isLoading = useReduxSelector(trackSelectors.isLoading(trackIndex))
-    const [id,trackName,dateOfCreation,author] = useTrackLoaderContainer(trackIndex)
-    useEffect(() => {
-        if (isLoadingFile && id) {
-            dispatch(getFile(id))
-        }
-    }, [isLoadingFile, id, dispatch]);
+type TrackDescriptionPropsType =
+    Pick<trackSliceType['tracks'][number], 'trackName'>
+    & Pick<trackSliceType['tracks'][number], 'author'>
+    & Pick<trackSliceType['tracks'][number], 'dateOfCreation'>;
+export const TrackDescription: FC<TrackDescriptionPropsType> = (props) => {
+    const {trackName, dateOfCreation, author} = props
     return (<>
-            <p>{`Название песни: ${trackName ? trackName : 'Без название'}`}</p>
-            <p>{`Дата загрузки:  ${dateOfCreation}`}</p>
-            <p>{`Исполнитель: ${author ? author : 'Исполнитель не известен'}`}</p>
-            {!isLoadingFile && isLoading ?
-                <div>
-                    <button children={'loading file'} onClick={()=>{loadingFile((prevState)=>prevState)}}/>
-                </div> :
-                <AudioPlayer {...{
-                    dispatch,
-                    key: trackIndex,
-                    useDescriptionContainer: useTrackLoaderContainer,
-                    trackNumber: trackIndex
-                }}/>
-            }
-
+            <div className={style.wrapper}>
+                <p className={style.titleName}>{`Название песни:`}</p>
+                <p className={style.description}>{`${trackName ? trackName : 'Без название'}`}</p>
+            </div>
+            <div className={style.wrapper}>
+                <p className={style.titleName}>{`Дата загрузки:`}</p>
+                <p className={style.description}>{`${dateOfCreation}`}</p>
+            </div>
+            <div className={style.wrapper}>
+                <p className={style.titleName}>{`Исполнитель:`}</p>
+                <p className={style.description}>{`${author ? author : 'Исполнитель не известен'}`}</p>
+            </div>
         </>
 
     );

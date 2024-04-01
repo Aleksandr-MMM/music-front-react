@@ -1,14 +1,18 @@
 import {configureStore} from "@reduxjs/toolkit";
 import authSlice from './reducers/authSlice'
-import userSlice from "./reducers/userSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, useReduxSelectorType} from "../ITypes/IReduxTypes";
+import profileSlice from "./reducers/profileSlice";
+import usersSlice from "./reducers/usersSlice";
+import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../ITypes";
+import trackSlice from "./reducers/trackSlice";
+import photosSlice from "./reducers/photosSlice";
+import albumSlice from "./reducers/albumSlice";
 
 export const useAppDispatch: () => AppDispatch = useDispatch
-export const useReduxSelector: useReduxSelectorType = useSelector
+export const useReduxSelector: TypedUseSelectorHook<RootState> = useSelector
 export const reduxStore = configureStore({
     reducer: {
-        authSlice,userSlice
+        authSlice,profileSlice,usersSlice,trackSlice,photosSlice,albumSlice
     },
 })
 

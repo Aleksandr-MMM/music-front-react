@@ -1,5 +1,5 @@
-@use '../../../../style/SCSS/color';
-@use '../../../../style/SCSS/mixins';
+@use '../../../../style/commonStyle/color';
+@use '../../../../style/commonStyle/mixins';
 // Колличество элементов и их настройки.Можно увеличить или уменьшить без проблем.
 $elements: [25%,80px,0s,0s] [10%,20px,2s,12s] [70%,20px,4s,0s] [40%,60px,0s,18s] [65%,20px,0s,0s] [75%,110px,3s,0s] [35%,150px,7s,0s] [50%,25px,15s,45s] [20%,15px,2s,35s] [85%,150px,0s,11s];
 // need for correct work component

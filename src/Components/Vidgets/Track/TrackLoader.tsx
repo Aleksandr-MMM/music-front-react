@@ -1,41 +1,34 @@
-import {FC, useEffect, useState} from "react";
-import {getFile} from "../../../../store/reducers/trackSlice";
-import {IFCPropsDispatch, IFCPropsId} from "../../../../ITypes";
-import {useReduxSelector} from "../../../../store/reduxStore";
-import {trackSelectors} from "../../../../store/selectors";
-import {AudioPlayer} from "../../AudioPlayer";
+import React, {FC, ReactElement} from "react";
+import {excludeObjectByKey, IFCPropsDispatch} from "../../../ITypes";
+import {AudioPlayer} from "../AudioPlayer";
 import {
     useTrackLoaderContainer
-} from "../../../../Hooks/ContainerHooks/useTrackLoaderContainer";
+} from "../../../Hooks/ContainerHooks/trackHooks/useTrackLoaderContainer";
+import {TrackDescription} from "./TrackDescription";
+import {useDisplayTrackContainer} from "../../../Hooks/ContainerHooks/useAudioPlayer/useDisplayTrackContainer";
+import {TrackPreloader} from "./TrackPreloader";
+import {TrackLoadingButton} from "./TrackLoadingButton";
+import style from './TrackLoader.module.scss'
+import {trackSliceType} from "../../../store/reducers/trackSlice";
 
-type TrackLoaderPropsType = IFCPropsDispatch & { trackIndex: number }
-export const TrackLoader: FC<TrackLoaderPropsType> = (props) => {
-    const {dispatch, trackIndex} = props
-    const [isLoadingFile, loadingFile] = useState(false);
-    const isLoading = useReduxSelector(trackSelectors.isLoading(trackIndex))
-    const [id,trackName,dateOfCreation,author] = useTrackLoaderContainer(trackIndex)
-    useEffect(() => {
-        if (isLoadingFile && id) {
-            dispatch(getFile(id))
-        }
-    }, [isLoadingFile, id, dispatch]);
-    return (<>
-            <p>{`Название песни: ${trackName ? trackName : 'Без название'}`}</p>
-            <p>{`Дата загрузки:  ${dateOfCreation}`}</p>
-            <p>{`Исполнитель: ${author ? author : 'Исполнитель не известен'}`}</p>
-            {!isLoadingFile && isLoading ?
-                <div>
-                    <button children={'loading file'} onClick={()=>{loadingFile((prevState)=>prevState)}}/>
-                </div> :
-                <AudioPlayer {...{
-                    dispatch,
-                    key: trackIndex,
-                    useDescriptionContainer: useTrackLoaderContainer,
-                    trackNumber: trackIndex
-                }}/>
+
+type TrackLoaderPropsType = IFCPropsDispatch & excludeObjectByKey<trackSliceType["tracks"][number], 'url'>;
+type menuType = { widgetFC?: ReactElement<IFCPropsDispatch & Pick<trackSliceType["tracks"][number],'id'>> | ReactElement}
+export const TrackLoader: FC<TrackLoaderPropsType & menuType> = (props) => {
+    const {dispatch, id, dateOfCreation, author, trackName, lastUpdate,widgetFC} = props
+    const [statusLoadingFile, isLoadingFile, changePreloader] = useTrackLoaderContainer(id, dispatch)
+    const audioPlayerHook = useDisplayTrackContainer(id)
+    return (<div className={style.track}>
+            {widgetFC}
+            <TrackDescription {...{trackName, dateOfCreation, author, lastUpdate}}/>
+            {
+                statusLoadingFile === 'loading' ?
+                    <TrackPreloader/> :
+                    isLoadingFile ?
+                        <AudioPlayer {...{key: id, useDisplayTrackContainer: audioPlayerHook}}/>
+                        :
+                        <TrackLoadingButton {...{loadingFile: changePreloader}}/>
             }
-
-        </>
-
+        </div>
     );
 };

@@ -1,31 +1,27 @@
-import {UserPhoto} from "./UserPhoto";
+import {PhotoFC} from "./PhotoFC";
 import {FC, useState} from "react";
-import {FCArguments} from "../../../../ITypes";
-import style from '../MyPhoto.module.scss'
-import {ElementEvents} from "../../../../events/ElementEvents";
+import {FCArguments} from "../../../ITypes";
+import {ElementEvents} from "../../../events/ElementEvents";
+import {PostForm} from "../Form/PostForm";
 
-export const MyPhoto: FC<FCArguments<typeof UserPhoto>> = (props) => {
-    const {dispatch, useUserPhotoContainer, thunk, photoSelectorPath, id, element,wrapper,isLoadingSelector} = props
-    const [isOpenInputFormFile, openInputFormFile] = useState(false)
-    const addOpenInputFile={...wrapper,onClick:() => {
-            if(wrapper?.onClick){
+export const MyPhoto: FC<FCArguments<typeof PhotoFC>> = (props) => {
+    const {dispatch, useUserPhotoContainer, thunk, photoSelectorPath, id, element, wrapper, isLoadingSelector} = props
+    const [isOpenForm, changeOpenFormFile] = useState(false)
+    const addOpenInputFile = {
+        ...wrapper, className: `${wrapper?.className ? wrapper?.className : ''}`,
+        onClick: () => {
+            if (wrapper?.onClick) {
                 wrapper?.onClick()
             }
-            openInputFormFile(value => !value)
+            changeOpenFormFile(value => !value)
         }
     }
     return <div>
-        <UserPhoto {...{dispatch,id,useUserPhotoContainer,element,thunk,photoSelectorPath,isLoadingSelector}}
-                   wrapper={{...addOpenInputFile}}/>
-        {isOpenInputFormFile ?
-            <form method="post" encType="multipart/form-data" style={{marginTop:'10px'}}>
-                <label className={style.input_file}>
-                    <input type="file" accept="image/png, image/jpeg"
-                           onChange={ElementEvents.input.onChange(dispatch)}/>
-                    <div className={style.input_file_btn}>Загрузить/обновить фотов</div>
-                    <div className={style.input_file_text}>Максимум 10мб</div>
-                </label>
-            </form> : undefined
-        }
+        <PhotoFC {...{
+            dispatch, id, useUserPhotoContainer, element, thunk, photoSelectorPath, isLoadingSelector,
+            wrapper: {...addOpenInputFile}
+        }}/>
+        <PostForm {...{dispatch,id,isOpenForm,changeOpenFormFile,acceptFile:"image/*",buttonName:'Загрузить фото',
+        onChangeSendFile:ElementEvents.input.changeMyPhoto}}/>
     </div>
 }

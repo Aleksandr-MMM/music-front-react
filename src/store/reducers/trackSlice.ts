@@ -1,107 +1,85 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {AxiosApi} from "../../API/ApiToBackend";
 import {ReduxConstants} from "../../Constants";
+import {sliceReducerType, urlLoadingType, urlType} from "../../ITypes";
 
-export const authMe = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.authMe, async () => {
-    return (await AxiosApi.auth.authMe()).data
+export const getTracks = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.getTracks, async () => {
+    return (await AxiosApi.tracks.getEntity()).data
 })
-export const getBearerToken = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.getBearerToken,
-    async (profileProperty: { email: string, password: string, rememberMe: boolean }) => {
-        const response = (await AxiosApi.auth.getToken(profileProperty.email, profileProperty.password)).data
-        return Object.assign(response, {rememberMe: profileProperty.rememberMe})
-    })
-export const registrationMe = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.registrationMe,
-    async (profileProperty: { email: string, password: string }) => {
-        return (await AxiosApi.auth.registrationMe(profileProperty.email, profileProperty.password)).data
-    },)
-
-type authRepoType = {
-    authToken: null | string, email: null | string, id: null | string, isAuth: boolean,
-    isAuthPreloader: boolean, isDisableButton: boolean,
-    responseBackendMessage: {
-        regMess: string | null,
-        authMe: string | null,
-        login: string | null
-    }
+export const getTrackById = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.getTrackById, async (trackId:string) => {
+    return (await AxiosApi.tracks.getTrackById(trackId)).data
+})
+export const getFile = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.getFile, async (id: string) => {
+    return {path: (await AxiosApi.tracks.getFile(id)), id}
+})
+type trackType = {
+    id: string | null,
+    "trackName": null | string,
+    "author": null | string,
+    "dateOfCreation": string,
+    "lastUpdate": string,
+} & { url: urlType & urlLoadingType }
+type tracksRepoType = {
+    tracks: trackType[]
 }
 
-const authSlice = createSlice({
-        name: ReduxConstants.SLICE_NAME.AUTH_SLICE,
+const trackSlice = createSlice<tracksRepoType,sliceReducerType<'deleteTrack',tracksRepoType,string>>({
+        name: ReduxConstants.SLICE_NAME.TRACK_SLICE,
         initialState: {
-            authToken: null, email: null, id: null, isAuth: false, isAuthPreloader: true,
-            isDisableButton: false,
-            responseBackendMessage: {
-                regMess: null,
-                authMe: null,
-                login: null
-            }
-        } as authRepoType ,
+            tracks: [],
+        } ,
         reducers: {
-            logout(state) {
-                AxiosApi.logoutAccount()
-                state.isAuth = false
+            deleteTrack:(state, action)=>{
+                // const trackIndex = state.tracks.findIndex(album => album.id === action.payload);
+                // const trackTrackList = state.tracks[albumIndex]
+                // console.log('delTrackInMyAlbum')
+                // for (let i = 0; i < action.meta.arg.trackList.length; i++) {
+                //     trackTrackList.filter(track => (track === action.meta.arg.trackList[i] && console.log(track === action.meta.arg.trackList[i])))
+                // }
             }
-        }
-        ,
+        },
         extraReducers: builder => {
-            // получение токена для идентификации на сайте
             builder
-                .addCase(getBearerToken.pending, (state) => {
-                state.isDisableButton = true
-                state.responseBackendMessage.login = null
-            })
-                .addCase(getBearerToken.fulfilled, (state, action) => {
-                    state.isDisableButton = false
-                    //Обновляю токен для последующих обращений в backend
-                    AxiosApi.refreshBearerToken = action.payload.data.access_token
-                    //Сохраняю токен локально
-                    if (action.payload.rememberMe) {
-                        AxiosApi.saveToken = action.payload.data.access_token
-                    }
-                    state.authToken = action.payload.data.access_token
-                    state.responseBackendMessage.login = null
+                .addCase(getTracks.pending, (state, action) => {
                 })
-                .addCase(getBearerToken.rejected, (state, action) => {
-                    state.isDisableButton = false
-                    state.isAuth = false
-                    if (typeof action.error.message === 'string') {
-                        state.responseBackendMessage.login = action.error?.message
+                .addCase(getTracks.fulfilled, (state, action) => {
+                    for (let i = 0; action.payload.data.length > i; i++) {
+                        if(!state.tracks.find(track=>track.id===action.payload.data[i].id )) {
+                            state.tracks.push({...action.payload.data[i], url: {path: null, isLoading: 'preparing'}})
+                        }
                     }
                 })
-            // идентификация аккаунта
-            builder.addCase(authMe.pending, (state) => {
-                state.isAuthPreloader = true
-            })
-                .addCase(authMe.fulfilled, (state, action) => {
-                    state.email = action.payload.data.email
-                    state.id = action.payload.data.id
-                    state.isAuth = true
-                    state.isAuthPreloader = false
+                .addCase(getTracks.rejected, (state, action) => {
                 })
-                .addCase(authMe.rejected, (state, action) => {
-                    state.isAuth = false
-                    state.isAuthPreloader = false
-                    if (typeof action.error === 'string') {
-                        state.responseBackendMessage.authMe = action.error
+            builder
+                .addCase(getTrackById.pending, (state, action) => {
+                })
+                .addCase(getTrackById.fulfilled, (state, action) => {
+                    if(!state.tracks.find(track=>track.id===action.payload.data.id )) {
+                        state.tracks.push({...action.payload.data, url: {path: null, isLoading: 'preparing'}})
                     }
                 })
-            // Регистрация аккаунта
-            builder.addCase(registrationMe.pending, (state) => {
-                state.isDisableButton = true
-                state.responseBackendMessage.regMess = null
-            })
-                .addCase(registrationMe.fulfilled, (state, action) => {
-                    state.isDisableButton = false
-                    state.responseBackendMessage.regMess = action.payload.data.message
+                .addCase(getTrackById.rejected, (state, action) => {
                 })
-                .addCase(registrationMe.rejected, (state, action) => {
-                    state.isDisableButton = false
-                    if (typeof action.error.message === 'string') {
-                        state.responseBackendMessage.regMess = action.error?.message
-                    }
+            const findTrackIndex = (state: tracksRepoType, id: string) => {
+                return state.tracks.findIndex(track => track.id === id)
+            }
+            builder
+                .addCase(getFile.pending, (state, action) => {
+                    const index = findTrackIndex(state, action.meta.arg)
+                    state.tracks[index].url.isLoading = 'loading'
+                })
+                .addCase(getFile.fulfilled, (state, action) => {
+                    const index = findTrackIndex(state, action.payload.id)
+                    state.tracks[index].url.isLoading = 'finish'
+                    state.tracks[index].url.path = action.payload.path
+                })
+                .addCase(getFile.rejected, (state, action) => {
+                    const index = findTrackIndex(state, action.meta.arg)
+                    state.tracks[index].url.isLoading = 'finish'
                 })
         }
     }
 )
-export const {logout} = authSlice.actions
-export default authSlice.reducer
+export type trackSliceType = ReturnType<typeof trackSlice.reducer>;
+export default trackSlice.reducer

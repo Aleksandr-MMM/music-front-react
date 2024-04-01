@@ -1,10 +1,14 @@
-@use '../../../../style/SCSS/color';
-@use '../../../../style/SCSS/mixins';
-.profileContent{
-    @include mixins.authBorder;
-    padding: 10px;
-    background-color: color.$authWrapper;
-}
-.userProfile{
+@use '../../../../style/commonStyle/color';
+@use '../../../../style/commonStyle/mixins';
+.profileWrapper{
     display: flex;
+    @include mixins.authBorder();
+    @include mixins.smoothAppearanceAni(2s);
+    @include mixins.addMarginLeftAllChildren(10px);
+    padding: 10px;
+    background-color: color.$authWrapperTransparent;
+}
+.infoWrapper{
+    @include mixins.addMarginTopAllChildren();
+    width: 100%;
 }

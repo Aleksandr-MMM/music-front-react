@@ -1,0 +1,46 @@
+@use '../../../style/commonStyle/mixins';
+@use '../../../style/commonStyle/color';
+
+.popupPortal {
+  @include mixins.authBorder();
+  background: color.$authWrapper;
+  $widthPortal: 500px;
+  border-radius: 12px;
+  position: absolute;
+  width: $widthPortal;
+  top: 70px;
+  left: calc(50% - $widthPortal / 2);
+  bottom: 70px;
+}
+
+.photoSize {
+  width: 100px;
+  height: 100px;
+}
+
+.closePopupIcon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.vignetting {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.64);
+  height: 100%;
+}
+.breadcrumb{
+  cursor: pointer;
+  color: red;
+}
+.breadcrumbAdd{
+  cursor: pointer;
+  color: green;
+}
+.userPhotoHover {
+  cursor: pointer;
+}

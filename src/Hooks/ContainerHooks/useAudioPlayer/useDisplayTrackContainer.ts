@@ -1,8 +1,13 @@
-import {MutableRefObject, useRef} from "react";
+import {useReduxSelector} from "../../../store/reduxStore";
+import {trackSelectors} from "../../../store/selectors";
+import {trackSliceType} from "../../../store/reducers/trackSlice";
 
-export const useAudioRefsContainer = () => {
-    return {
-        audioRef: useRef<HTMLAudioElement>() as MutableRefObject<HTMLAudioElement>,
-        progressBarRef: useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>
+type containerArgs=trackSliceType['tracks'][number]['id']
+type containerReturnType=() => string | null | undefined
+export const useDisplayTrackContainer = (trackId:containerArgs):containerReturnType => {
+
+    const useContainer=()=>{
+        return useReduxSelector(trackSelectors.path(trackId))
     }
+    return useContainer
 };

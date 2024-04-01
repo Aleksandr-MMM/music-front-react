@@ -1,10 +1,14 @@
-.App{
-    width: 1100px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+@use './style/commonStyle/mixins';
+
+.AppWrapper {
+  display: flex;
+  justify-content: center;
 }
-.AppWrapper{
-    display: flex;
-    justify-content: center;
+
+.App {
+  @include mixins.addMarginTopAllChildren();
+  width: 1100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

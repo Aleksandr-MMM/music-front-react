@@ -1,14 +1,15 @@
-import preloader from "../../../assets/preloader.svg";
-import style from "../../Component/Animation/AuthPreloader/AuthPreloader.module.scss";
-import {JumpingWords} from "../../Component/Animation/JumpingWords/JumpingWords";
-import React, {FC} from "react";
+import React, {Dispatch, FC, SetStateAction} from "react";
+import {CustomButton} from "../../Component/Button/CustomButton";
+import {FCArguments} from "../../../ITypes";
+import style from './TrackLoadingButton.module.scss'
 
-export const TrackPreloader:FC = () => {
- return (
-     <div>
-         <img src={preloader} alt="loading music file" className={style.preloader}
-              style={{width: '100px'}}/>
-         <JumpingWords words={'Идет загрузка. Подождите пожалуйста.'} fontSize={20}/>
-     </div>
- );
+type TrackLoadingButtonProps = { button?: Omit<Omit<FCArguments<typeof CustomButton>, 'onClick'>, 'children'> }
+    & { loadingFile: Dispatch<SetStateAction<boolean>> };
+    // & IFCPropsWrapper<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>;
+export const TrackLoadingButton: FC<TrackLoadingButtonProps> = ({button, loadingFile}) => {
+    return (<div className={style.trackBtnWrapper}>
+            <CustomButton {...button} children={'Loading track'} onClick={() => {
+                loadingFile((prevState) => !prevState)}}/>
+        </div>
+    );
 };

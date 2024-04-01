@@ -12,15 +12,13 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-
+    <StrictMode>
       <BrowserRouter>
-          <StrictMode>
               <Provider store={reduxStore}>
                   <App/>
               </Provider>
-          </StrictMode>
-
       </BrowserRouter>
+    </StrictMode>
 
 );
 

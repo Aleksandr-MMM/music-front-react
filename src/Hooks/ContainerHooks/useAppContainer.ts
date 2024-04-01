@@ -8,12 +8,13 @@ import {authSliceSelectors} from "../../store/selectors";
  */
 export default function useAppContainer() {
     const dispatch = useAppDispatch()
-    const authToken = useReduxSelector((state) => authSliceSelectors.authToken(state));
+    const authToken = useReduxSelector(authSliceSelectors.authToken());
     useEffect(() => {
         dispatch(authMe())
     }, [dispatch, authToken])
     return {
-        isAuth:useReduxSelector((state) => authSliceSelectors.isAuth(state)), dispatch,
-        isAuthPreloader:useReduxSelector((state) => authSliceSelectors.isAuthPreloader(state))
+        isAuth: useReduxSelector(authSliceSelectors.isAuth()),
+        dispatch,
+        isAuthPreloader: useReduxSelector(authSliceSelectors.isAuthPreloader())
     }
 }

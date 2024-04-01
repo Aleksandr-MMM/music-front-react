@@ -6,7 +6,7 @@ import {authSliceSelectors} from "../../store/selectors";
  */
 export default function useLoginFormContainer() {
     return {
-        authMe:useReduxSelector(state => authSliceSelectors.loginMessage(state)),
-        isDisableButton:useReduxSelector(state => authSliceSelectors.isDisableButton(state)),
+        authMe:useReduxSelector(authSliceSelectors.loginMessage()),
+        isDisableButton:useReduxSelector(authSliceSelectors.isDisableButton()),
     }
 }

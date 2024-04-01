@@ -1,0 +1,14 @@
+@use '../../../style/commonStyle/mixins';
+@use '../../../style/commonStyle/color';
+
+.footer {
+  @include mixins.authBorder(9px);
+  background-color: color.$authWrapperTransparent;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.git_hub_link {
+  color: color.$buttonBlue;
+}

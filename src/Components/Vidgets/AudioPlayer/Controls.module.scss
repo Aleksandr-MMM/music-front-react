@@ -1,0 +1,11 @@
+@use "../../../style/commonStyle/color";
+
+.audioButton {
+  margin-right: 5px;
+  cursor: pointer;
+  background: color.$buttonBlue;
+  border: none;
+  &:hover{
+    background: color.$linkActive;
+  }
+}

@@ -1,16 +1,20 @@
 @use "sass:math";
-@use '../../../../style/commonStyle/color';
+@use '../../../style/commonStyle/color';
 .photoWrapper {
     $circleSize:300px;
     width: $circleSize;
     height: $circleSize;
     border-radius: math.div($circleSize,2);
-    overflow: hidden;
+
 }
 .userPhoto {
+    border-radius: 50%;
     width: inherit;
     height: inherit;
 }
 .pendingPhoto{
     background: color.$pendingColor;
+}
+.photoHover{
+    cursor: pointer;
 }

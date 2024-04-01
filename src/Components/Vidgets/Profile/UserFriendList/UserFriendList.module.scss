@@ -1,4 +1,33 @@
+@use '../../../../style/commonStyle/mixins';
+@use '../../../../style/commonStyle/color';
+
 .userFriendList {
-    margin-top: 10px;
-    display: inline-block;
+  @include mixins.authBorder();
+  @include mixins.centerAlign();
+  padding: 10px;
+  margin-top: 10px;
+  color: color.$buttonBlue;
+}
+
+.icon {
+  @include mixins.authBorder(100%,3px);
+  border-radius: 100%;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.addFriend {
+  cursor: pointer;
+  @include mixins.centerAlign();
+}
+.link{
+  display: flex;
+  @include mixins.authLink(color.$buttonBlue);
+}
+.userPhoto{
+  margin-left: 10px;
+  $size:45px;
+  width: $size !important;
+  height: $size !important;
+  cursor: pointer;
 }

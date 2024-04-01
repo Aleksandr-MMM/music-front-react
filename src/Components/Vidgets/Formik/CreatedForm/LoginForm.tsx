@@ -1,64 +1,42 @@
+import React, {FC} from "react";
 import {Form, Formik} from "formik";
-import {FormikValidation} from "../../../helpers/FormikValidation/FormikValidation";
+import {FormikValidation} from "../../../../helpers/FormikValidation";
 import {FormikCheckbox} from "../../../Component/Formik/FormikCheckbox";
 import {CustomButton} from "../../../Component/Button/CustomButton";
-import {IDispatchInProps} from "../../../../ITypes/BaseHtmlTypes";
-import {getToken} from "../../../../store/reducers/authSlice";
 import {FormikEmailComponent} from "../FormikEmailComponent";
 import {FormikPasswordComponent} from "../FormikPasswordComponent";
-import style from './LoginForm.module.scss'
 import useLoginFormContainer from "../../../../Hooks/ContainerHooks/useLoginFormContainer";
-import {CustomParagraphComponent} from "../../../Component/CustomParagraphComponent";
-import React from "react";
 import {JumpingWords} from "../../../Component/Animation/JumpingWords/JumpingWords";
+import {IFCPropsDispatch} from "../../../../ITypes";
+import {FormikConstants} from "../../../../Constants";
+import {ElementEvents} from "../../../../events/ElementEvents";
+import {FormikError} from "../FormikError";
+import style from './LoginForm.module.scss'
 
-export const LoginForm = ({dispatch}: IDispatchInProps) => {
+export const LoginForm:FC<IFCPropsDispatch> = (props) => {
+    const {dispatch}=props
     const {authMe, isDisableButton} = useLoginFormContainer()
-    return (<>
-
-            <Formik initialValues={{
-                email: '',
-                password: '',
-                rememberMe: true,
-            }}
+    return (<Formik initialValues={{...FormikConstants['auth'], rememberMe: true,}}
                     validationSchema={FormikValidation.schema.login}
-                    onSubmit={async (values) => {
-                        dispatch(getToken({
-                            email: values.email,
-                            password: values.password,
-                            rememberMe: values.rememberMe
-                        }))
-                    }}>
-
-                <Form className={style.FormikFormWrapper}>
-                    <h2>
-                        Войти по адресу электронной почты
-                    </h2>
-                    <div className={style.FormikInputWrapper}>
+                    onSubmit={ElementEvents.Formik.onSubmit.login(dispatch)}>
+                <Form className={style.formWrapper}>
+                    <h2 children={'Войти по адресу электронной почты'}/>
+                    <div className={style.inputWrapper}>
                         <FormikEmailComponent/>
                         <FormikPasswordComponent/>
                     </div>
-                    <FormikCheckbox name="rememberMe" wrapperStyle={{
-                        marginTop: '10px', marginBottom: '10px',
-                    }} id='rememberMe'
-                    >
-                        Запомнить меня
-                    </FormikCheckbox>
+                    <FormikCheckbox name="rememberMe" style={{marginTop: '10px', marginBottom: '10px',}}
+                                    id='rememberMe' children={'Запомнить меня'}/>
                     <div style={{display: 'flex'}}>
                         <CustomButton children={'Войти'} type={'submit'} disabled={isDisableButton}/>
                         {isDisableButton ?
-                            <JumpingWords words={'Loading...'} fontSize={20} style={{
-                                display: 'inline-block',
-                                paddingLeft: '15px', color: "green"
-                            }}/> : undefined}
+                            <JumpingWords words={'Loading...'} fontSize={20} wrapper={{style:
+                                    {display: 'inline-block', paddingLeft: '15px', color: "green"}}}/>
+                            : undefined}
                     </div>
-                    {authMe ? <CustomParagraphComponent children={authMe}
-                                                        style={{fontWeight: 'bold', color: 'red'}}/>
-                        : undefined}
-
+                    {/*Отображение сообщений об ошибке от сервера*/}
+                    <FormikError errorMess={authMe}/>
                 </Form>
             </Formik>
-        </>
-
     )
 }

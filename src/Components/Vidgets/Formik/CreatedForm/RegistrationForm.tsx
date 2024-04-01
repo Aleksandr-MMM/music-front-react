@@ -1,50 +1,48 @@
-import React from "react";
-import {IDispatchInProps} from "../../../../ITypes/BaseHtmlTypes";
+import React, {FC} from "react";
 import {Form, Formik} from "formik";
-import {FormikValidation} from "../../../helpers/FormikValidation/FormikValidation";
+import {FormikValidation} from "../../../../helpers/FormikValidation";
 import {FormikInput} from "../../../Component/Formik/FormikInput";
 import {CustomButton} from "../../../Component/Button/CustomButton";
-import {registrationMe} from "../../../../store/reducers/authSlice";
 import {FormikEmailComponent} from "../FormikEmailComponent";
 import {FormikPasswordComponent} from "../FormikPasswordComponent";
-import {CustomParagraphComponent} from "../../../Component/CustomParagraphComponent";
 import useRegistrationFormContainer from "../../../../Hooks/ContainerHooks/useRegistrationFormContainer";
 import style from './RegistrationForm.module.scss'
 import {JumpingWords} from "../../../Component/Animation/JumpingWords/JumpingWords";
-export const RegistrationForm = ({dispatch}: IDispatchInProps): React.ReactElement => {
-    const {regErrorMess,isDisableButton} = useRegistrationFormContainer()
+import {IFCPropsDispatch} from "../../../../ITypes";
+import {FormikConstants} from "../../../../Constants";
+import {ElementEvents} from "../../../../events/ElementEvents";
+import {FormikError} from "../FormikError";
+
+export const RegistrationForm: FC<IFCPropsDispatch> = (props): React.ReactElement => {
+    const {dispatch} = props
+    const {regErrorMess, isDisableButton} = useRegistrationFormContainer()
     return (<>
-            <Formik initialValues={{
-                email: '',
-                password: '',
-                confirmPassword: '',
-            }}
+            <Formik initialValues={{...FormikConstants['auth'], confirmPassword: '',}}
                     validationSchema={FormikValidation.schema.registration}
-                    onSubmit={async (values) => {
-                        dispatch(registrationMe({email: values.email, password: values.password}))
-                    }}>
-                <Form className={style.FormikFormWrapper}>
+                    onSubmit={ElementEvents.Formik.onSubmit.registration(dispatch)}>
+                <Form className={style.formWrapper}>
                     <h2>
                         Страница регистрации пользователя
                     </h2>
-                    <div className={style.FormikInputWrapper}>
+                    <div className={style.inputWrapper}>
                         <FormikEmailComponent/>
                         <FormikPasswordComponent/>
-                        <FormikInput name="confirmPassword"
-                                     id="confirmPassword"
-                                     type="password">
-                            Confirm your password
-                        </FormikInput>
+                        <FormikInput labelProps={{children: 'Подтвердите свой новый пароль'}}
+                                     elementProps={{id: "confirmPassword", type: 'password'}}/>
                     </div>
-                        <CustomButton children={'Зарегестироваться'} type={'submit'} disabled={isDisableButton}/>
-                        {isDisableButton ?
-                            <JumpingWords words={'Loading...'} fontSize={20} style={{
+                    <CustomButton children={'Зарегестироваться'} type={'submit'} disabled={isDisableButton}/>
+                    {isDisableButton ?
+                        <JumpingWords words={'Loading...'} fontSize={20} wrapper={{
+                            style: {
                                 display: 'inline-block',
                                 paddingLeft: '15px', color: "green"
-                            }}/> : undefined}
-                    {regErrorMess ? <CustomParagraphComponent children={regErrorMess}
-                                                              style={{fontWeight: 'bold', color: 'red'}}/>
+                            }
+                        }}/>
                         : undefined}
+                    {/*Отображение сообщений об ошибке от сервера*/}
+                    {regErrorMess ?
+                        <p children={regErrorMess} style={{fontWeight: 'bold', color: 'red'}}></p> : undefined}
+                    <FormikError errorMess={regErrorMess}/>
                 </Form>
             </Formik>
         </>

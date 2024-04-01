@@ -1,7 +1,7 @@
 export class ApiStream {
     public static async readReadableStream(response: Response): Promise<string | null> {
-        if (response && response.body) {
-            const responseAttachmentBody = await response.body
+        const responseAttachmentBody = await response.body
+        if (responseAttachmentBody) {
             let reader: ReadableStreamDefaultReader<Uint8Array> = responseAttachmentBody.getReader();
             const readableStream = new ReadableStream<Uint8Array>({
                     async start(controller) {
@@ -19,8 +19,7 @@ export class ApiStream {
             )
             const blob = new Response(readableStream).blob()
             return URL.createObjectURL(await blob)
-        } else {
-            return null
         }
+        return null
     }
 }
