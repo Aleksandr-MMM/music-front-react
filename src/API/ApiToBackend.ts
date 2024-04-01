@@ -11,7 +11,7 @@ import {checkStatusCodeException} from "../helpers/Exception/CheckStatusCodeExce
  */
 class CreateInstanceAxios extends LocalPersistenceService {
     // private static readonly baseURL = 'http://localhost:5000'
-    private static readonly baseURL = 'https://nestserver16-vijm0soi.b4a.run'
+    private static readonly baseURL = 'https://nestserver18-iuivnhpb.b4a.run'
     private static bearerToken: string | null = LocalPersistenceService.getBearerToken
 
     protected static get getBearerToken() {
@@ -199,7 +199,7 @@ export class AxiosApi extends CreateInstanceAxios {
         //     return ApiStream.readReadableStream(response)
         // },
         async getFile(id: string) {
-            const response = await fetch(`http://localhost:5000/track/file/${id}`, {
+            const response = await fetch(`https://nestserver16-vijm0soi.b4a.run/track/file/${id}`, {
                 method: 'GET', headers: {
                     authorization:
                         `Bearer ${CreateInstanceAxios.getBearerToken}`
@@ -229,7 +229,7 @@ export class AxiosApi extends CreateInstanceAxios {
     }
     public static photo = {
         async getPhoto(userId: string): Promise<string | null> {
-            const response = await fetch(`http://localhost:5000/user/photo/${userId}`, {
+            const response = await fetch(`https://nestserver18-iuivnhpb.b4a.run/user/photo/${userId}`, {
                 method: 'GET', headers: {
                     authorization:
                         `Bearer ${CreateInstanceAxios.getBearerToken}`
