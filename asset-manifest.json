@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/music-front-react/static/css/main.e331f2fc.css",
-    "main.js": "/music-front-react/static/js/main.e02f7120.js",
+    "main.css": "/music-front-react/static/css/main.7f518803.css",
+    "main.js": "/music-front-react/static/js/main.c456a0d6.js",
     "static/js/787.a19ae7fa.chunk.js": "/music-front-react/static/js/787.a19ae7fa.chunk.js",
     "static/media/hand.svg": "/music-front-react/static/media/hand.1b8af27bc42384a0ee69009738b12b18.svg",
     "static/media/note.svg": "/music-front-react/static/media/note.1c5e3bcf77e341b2918a76b532308f29.svg",
     "static/media/preloader.svg": "/music-front-react/static/media/preloader.d883166c87eccf650492b5d627a41af0.svg",
     "static/media/LoadingPreloaderV2.svg": "/music-front-react/static/media/LoadingPreloaderV2.0dc23bb719af3bfe8270ff3231a9d9fb.svg",
     "index.html": "/music-front-react/index.html",
-    "main.e331f2fc.css.map": "/music-front-react/static/css/main.e331f2fc.css.map",
-    "main.e02f7120.js.map": "/music-front-react/static/js/main.e02f7120.js.map",
+    "main.7f518803.css.map": "/music-front-react/static/css/main.7f518803.css.map",
+    "main.c456a0d6.js.map": "/music-front-react/static/js/main.c456a0d6.js.map",
     "787.a19ae7fa.chunk.js.map": "/music-front-react/static/js/787.a19ae7fa.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e331f2fc.css",
-    "static/js/main.e02f7120.js"
+    "static/css/main.7f518803.css",
+    "static/js/main.c456a0d6.js"
   ]
 }
