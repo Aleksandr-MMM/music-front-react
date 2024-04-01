@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/music-front-react/static/css/main.b88b1103.css",
+    "main.css": "/music-front-react/static/css/main.575ad95c.css",
     "main.js": "/music-front-react/static/js/main.e943aaed.js",
     "static/js/787.a19ae7fa.chunk.js": "/music-front-react/static/js/787.a19ae7fa.chunk.js",
     "static/media/hand.svg": "/music-front-react/static/media/hand.1b8af27bc42384a0ee69009738b12b18.svg",
@@ -8,12 +8,12 @@
     "static/media/preloader.svg": "/music-front-react/static/media/preloader.d883166c87eccf650492b5d627a41af0.svg",
     "static/media/LoadingPreloaderV2.svg": "/music-front-react/static/media/LoadingPreloaderV2.0dc23bb719af3bfe8270ff3231a9d9fb.svg",
     "index.html": "/music-front-react/index.html",
-    "main.b88b1103.css.map": "/music-front-react/static/css/main.b88b1103.css.map",
+    "main.575ad95c.css.map": "/music-front-react/static/css/main.575ad95c.css.map",
     "main.e943aaed.js.map": "/music-front-react/static/js/main.e943aaed.js.map",
     "787.a19ae7fa.chunk.js.map": "/music-front-react/static/js/787.a19ae7fa.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b88b1103.css",
+    "static/css/main.575ad95c.css",
     "static/js/main.e943aaed.js"
   ]
 }
