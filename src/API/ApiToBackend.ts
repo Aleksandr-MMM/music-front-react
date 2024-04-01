@@ -199,7 +199,7 @@ export class AxiosApi extends CreateInstanceAxios {
         //     return ApiStream.readReadableStream(response)
         // },
         async getFile(id: string) {
-            const response = await fetch(`http://localhost:5000/track/file/${id}`, {
+            const response = await fetch(`https://nestserver16-vijm0soi.b4a.run/track/file/${id}`, {
                 method: 'GET', headers: {
                     authorization:
                         `Bearer ${CreateInstanceAxios.getBearerToken}`
