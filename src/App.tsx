@@ -1,44 +1,28 @@
 import React from 'react';
-import './App.css';
-import {Header} from "./Components/PagesElements/Header/Header";
-import {Article} from "./Components/PagesElements/Article/Article";
-import {Navbar} from "./Components/PagesElements/NavBar/Navbar";
-import {Footer} from "./Components/PagesElements/Footer/Footer";
+import style from './App.module.scss';
 import useAppContainer from "./Hooks/ContainerHooks/useAppContainer";
-import {AuthComponent} from "./Components/PagesElements/Content/Auth/AuthComponent";
-import {AnimationBgComponent} from "./Components/Component/Animation/AnimationBgComponent/AnimationBgComponent";
-import {JumpingWords} from "./Components/Component/Animation/JumpingWords/JumpingWords";
-import {AuthPreloader} from "./Components/Component/Animation/AuthPreloader/AuthPreloader";
+import {AuthFailed} from "./Components/Vidgets/Auth/AuthFailed";
+import {AnimationPageComponent} from "./Components/Component/Animation/AnimationBgComponent/AnimationPageComponent";
+import {AuthPreloader} from "./Components/Vidgets/Auth/AuthPreloader";
+import {AuthSuccess} from "./Components/Vidgets/Auth/AuthSuccess";
 
 function App(): React.ReactElement {
     const {isAuth, dispatch, isAuthPreloader} = useAppContainer()
     return (
-        <div className='AppWrapper'>
-            <div className="App">
+        <div className={style.AppWrapper}>
+            <div className={style.App}>
+
                 {
-                    isAuthPreloader ? <>
-                            <AuthPreloader/>
-                            <JumpingWords words={'Подождите идет загрузка...'} style={{color: 'red'}} fontSize={50}/>
-                        </>
-                        :
-                        <>
-                            {isAuth ?
-                                <>
-                                    <Header dispatch={dispatch}/>
-                                    <Navbar/>
-                                    <Article dispatch={dispatch} isAuth={isAuth}/>
-                                    <Footer/>
-                                </>
-                                :
-                                <div>
-                                    <AuthComponent dispatch={dispatch}/>
-                                </div>}
-                            <AnimationBgComponent/>
-                        </>
+                    isAuthPreloader ?
+                        <AuthPreloader words={'Подождите идет загрузка...'}/>
+                        : isAuth ?
+                            <AuthSuccess dispatch={dispatch}/> :
+                            <AuthFailed dispatch={dispatch}/>
                 }
+
             </div>
+            <AnimationPageComponent/>
         </div>
     );
 }
-
 export default App;

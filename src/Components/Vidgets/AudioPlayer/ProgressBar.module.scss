@@ -1,11 +1,103 @@
-input[type="range"] {
-  --range-progress: 0;
-  /* ... */
+@use '../../../style/commonStyle/color';
+@use '../../../style/commonStyle/mixins';
+
+@mixin sliderSize($height:24px,$width:10px) {
+  height: $height;
+  width: $width;
 }
 
-input[type="range"]::before {
-  /* ... */
-  background: #f50;
-  width: var(--range-progress);
-  /* ... */
+@mixin progressBarSize($width:200px) {
+  width: $width;
+}
+
+$progressBarRoad: color.$authWrapper;
+$progressBarRoadFocus: color.$buttonBlue;
+//sliderColor
+$sliderHover: color.$linkActive;
+$sliderColor: color.$authWrapper;
+@mixin inputRange($sliderHeight:24px,$sliderWidth:10px,$progressBarWidth:200px) {
+  input[type=range] {
+    @include progressBarSize($progressBarWidth);
+    -webkit-appearance: none;
+    margin: 18px 0;
+
+    &::-webkit-slider-runnable-track {
+      @include mixins.progressBarAndSlider($progressBarRoad);
+      height: 8.4px;
+    }
+
+    &::-webkit-slider-thumb {
+      @include mixins.progressBarAndSlider($sliderColor);
+      @include sliderSize($sliderHeight, $sliderWidth);
+      -webkit-appearance: none;
+      margin-top: -9px;
+    }
+
+    &::-webkit-slider-thumb:hover {
+      @include mixins.progressBarAndSlider($sliderHover);
+      @include sliderSize($sliderHeight, $sliderWidth);
+      -webkit-appearance: none;
+      margin-top: -9px;
+    }
+
+    &:focus::-webkit-slider-runnable-track {
+      background: $progressBarRoadFocus;
+    }
+
+    &:hover::-webkit-slider-runnable-track {
+      background: $progressBarRoadFocus;
+    }
+
+    &::-moz-range-track {
+      @include mixins.progressBarAndSlider($progressBarRoad);
+      height: 8.4px;
+    }
+
+    &::-moz-range-thumb {
+      @include mixins.progressBarAndSlider(white);
+      @include sliderSize($sliderHeight, $sliderWidth);
+    }
+
+    &::-ms-track {
+      height: 8.4px;
+      cursor: pointer;
+      background: transparent;
+      border-color: transparent;
+      border-width: 16px 0;
+      color: transparent;
+    }
+
+    &::-ms-fill-lower {
+      @include mixins.progressBarAndSlider($sliderColor);
+    }
+
+    &:focus::-ms-fill-lower {
+      background: $progressBarRoad;
+    }
+
+    &::-ms-fill-upper {
+      @include mixins.progressBarAndSlider($progressBarRoad);
+    }
+
+    &:focus::-ms-fill-upper {
+      background: $sliderColor;
+    }
+
+    &::-ms-thumb {
+      @include mixins.progressBarAndSlider(white);
+      @include sliderSize($sliderHeight, $sliderWidth);
+    }
+  }
+}
+
+.progressBar {
+  @include inputRange;
+}
+
+.volumeBar {
+  @include inputRange(22px, 8px, 150px);
+}
+
+.durationAndCurrentTime {
+  color: color.$buttonBlue;;
 }

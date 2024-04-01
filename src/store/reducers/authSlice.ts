@@ -1,23 +1,25 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {AxiosApi} from "../../API/ApiToBackend";
+import {ReduxConstants} from "../../Constants";
 
-export const authMe = createAsyncThunk('post/authMe', async () => {
+export const authMe = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.authMe, async () => {
     return (await AxiosApi.auth.authMe()).data
 })
-export const getToken = createAsyncThunk('get/bearerToken',
+export const getBearerToken = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.getBearerToken,
     async (profileProperty: { email: string, password: string, rememberMe: boolean }) => {
         const response = (await AxiosApi.auth.getToken(profileProperty.email, profileProperty.password)).data
-        // fix later
-        const assignResponse: (typeof response) & { rememberMe: boolean } = Object.assign(response, {rememberMe: profileProperty.rememberMe})
-        return assignResponse
+        return Object.assign(response, {rememberMe: profileProperty.rememberMe})
     })
-export const registrationMe = createAsyncThunk('post/registrationMe',
+export const registrationMe = createAsyncThunk(ReduxConstants.ASYNC_THUNK_PREFIX.registrationMe,
     async (profileProperty: { email: string, password: string }) => {
         return (await AxiosApi.auth.registrationMe(profileProperty.email, profileProperty.password)).data
     },)
 
 type authRepoType = {
-    authToken: null | string, email: null | string, id: null | string, isAuth: boolean,
+    authToken: null | string,
+    email: null | string,
+    id: null | string,
+    isAuth: boolean,
     isAuthPreloader: boolean, isDisableButton: boolean,
     responseBackendMessage: {
         regMess: string | null,
@@ -27,7 +29,7 @@ type authRepoType = {
 }
 
 const authSlice = createSlice({
-        name: "authSlice",
+        name: ReduxConstants.SLICE_NAME.AUTH_SLICE,
         initialState: {
             authToken: null, email: null, id: null, isAuth: false, isAuthPreloader: true,
             isDisableButton: false,
@@ -46,11 +48,12 @@ const authSlice = createSlice({
         ,
         extraReducers: builder => {
             // получение токена для идентификации на сайте
-            builder.addCase(getToken.pending, (state) => {
+            builder
+                .addCase(getBearerToken.pending, (state) => {
                 state.isDisableButton = true
                 state.responseBackendMessage.login = null
             })
-                .addCase(getToken.fulfilled, (state, action) => {
+                .addCase(getBearerToken.fulfilled, (state, action) => {
                     state.isDisableButton = false
                     //Обновляю токен для последующих обращений в backend
                     AxiosApi.refreshBearerToken = action.payload.data.access_token
@@ -61,7 +64,7 @@ const authSlice = createSlice({
                     state.authToken = action.payload.data.access_token
                     state.responseBackendMessage.login = null
                 })
-                .addCase(getToken.rejected, (state, action) => {
+                .addCase(getBearerToken.rejected, (state, action) => {
                     state.isDisableButton = false
                     state.isAuth = false
                     if (typeof action.error.message === 'string') {

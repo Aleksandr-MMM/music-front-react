@@ -1,13 +1,8 @@
-import { IChildrenNodeProperty} from "../../../ITypes/BaseHtmlTypes";
 import style from './CustomButton.module.scss'
-import React from "react";
+import React, {FC} from "react";
 
-
-
-export const CustomButton = ({children, ...elementAttributes}: IChildrenNodeProperty&React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-
-    return (<button className={style.customButtonDefault} {...elementAttributes}>
-                {children}
-        </button>
-    )
+export const CustomButton: FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
+    const {...elementAttributes} = props
+    return (<button className={`${style.buttonDefaultStyle} ${elementAttributes?.className ? elementAttributes.className : ''}`}
+                    {...elementAttributes}/>)
 }

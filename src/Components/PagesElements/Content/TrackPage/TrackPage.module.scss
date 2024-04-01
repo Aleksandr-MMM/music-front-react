@@ -1,0 +1,10 @@
+@use "../../../../style/commonStyle/color";
+@use "../../../../style/commonStyle/mixins";
+
+.trackPage {
+  @include mixins.authBorder();
+  @include mixins.smoothAppearanceAni(2s);
+  @include mixins.trackPageDisplay();
+  padding: 10px;
+  background: color.$authWrapperTransparent;
+}

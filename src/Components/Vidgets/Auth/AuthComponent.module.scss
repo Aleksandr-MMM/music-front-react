@@ -1,12 +1,11 @@
-@use '../../../../style/SCSS/mixins';
-@use '../../../../style/SCSS/color';
+@use '../../../style/commonStyle/mixins';
+@use '../../../style/commonStyle/color';
 .auth {
-  background-color: color.$authWrapper;
+  background-color: color.$authWrapperTransparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
-  margin-top: 4px;
+  padding: 10px;
   opacity: 0;
   @include mixins.authBorder;
   @include mixins.smoothAppearanceAni;

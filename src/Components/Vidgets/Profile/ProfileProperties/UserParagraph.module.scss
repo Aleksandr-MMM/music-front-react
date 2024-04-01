@@ -1,13 +1,14 @@
-@use '../../../../style/SCSS/mixins';
-@use '../../../../style/SCSS/color';
+@use '../../../../style/commonStyle/mixins';
+@use '../../../../style/commonStyle/color';
 
 .wrapper {
   display: flex;
+
   &:nth-child(odd) {
     margin-bottom: 10px;
   }
 }
-.title {
+@mixin title {
   $titleWidth: 250px;
   word-wrap: break-word;
   display: inline-block;
@@ -15,9 +16,15 @@
   max-width: $titleWidth;
   font-weight: bold;
   margin-right: 20px;
+
+}
+.title {
+  @include title;
+}
+.myTitle {
   cursor: pointer;
 }
-.description {
+@mixin description {
   padding: 0;
   line-height: 1;
   resize: none;
@@ -29,15 +36,26 @@
   background: none;
   background-origin: border-box;
   background-clip: padding-box, border-box;
+}
+
+.description {
+  color: color.$buttonBlue;
+  @include description;
+
+}
+
+.myDescription {
+  cursor: pointer;
   &:hover {
-    cursor: pointer;
     @include mixins.underlineText(color.$underlineText);
     @include mixins.disappearanceAnimation();
   }
+
   &:focus {
     cursor: text;
     @include mixins.underlineText(color.$underlineText);
   }
+
   &:focus:hover {
     animation: none;
     cursor: text;

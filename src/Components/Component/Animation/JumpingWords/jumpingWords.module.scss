@@ -1,5 +1,5 @@
-@use '../../../../style/SCSS/color';
-@use '../../../../style/SCSS/mixins';
+@use '../../../../style/commonStyle/color';
+@use '../../../../style/commonStyle/mixins';
 .JumpingWords {
   $animationTimer:calc(0.115s*var(--numberOfLettersJumpingWords));
   $fontSize:calc(1*var(--fontSizeJumpingWords));

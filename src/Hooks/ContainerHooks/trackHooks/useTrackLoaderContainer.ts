@@ -1,8 +1,8 @@
-import {useReduxSelector} from "../../store/reduxStore";
-import {trackSelectors} from "../../store/selectors";
+import {useReduxSelector} from "../../../store/reduxStore";
+import {trackSelectors} from "../../../store/selectors";
 import {useEffect, useState} from "react";
-import {getFile, trackSliceType} from "../../store/reducers/trackSlice";
-import {IFCPropsDispatch} from "../../ITypes";
+import {getFile, trackSliceType} from "../../../store/reducers/trackSlice";
+import {IFCPropsDispatch} from "../../../ITypes";
 
 export const useTrackLoaderContainer = (trackId: trackSliceType["tracks"][number]["id"],dispatch:IFCPropsDispatch['dispatch']) => {
     const isLoadingFileStatus = useReduxSelector(trackSelectors.isLoading(trackId))

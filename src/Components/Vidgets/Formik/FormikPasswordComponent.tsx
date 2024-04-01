@@ -1,9 +1,7 @@
 import {FormikInput} from "../../Component/Formik/FormikInput";
 
 export const FormikPasswordComponent = () => {
-    return (<FormikInput name="password"
-                         id="password"
-                         type="password">
-        Password
-    </FormikInput>)
+    return (<FormikInput labelProps={{children:"Password"}} elementProps={{type:'password',id:"password"}}/>)
 }
+// elementProps={{id:"password",type:'password'}}
+// labelProps={{children:"password"}}

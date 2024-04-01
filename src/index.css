@@ -5,7 +5,7 @@ html {
     font-size: 20px;
 }
 body {
-    background: #F8EFED;
+    position: relative;
     /*display: flex;*/
     /*justify-content: center;*/
 }

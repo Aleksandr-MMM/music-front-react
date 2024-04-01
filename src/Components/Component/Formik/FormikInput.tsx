@@ -1,9 +1,11 @@
-import React from "react";
-import {ILabelAttributes, IPropsId, IWrapperClassname} from "../../../ITypes/BaseHtmlTypes";
-import FormikTemplate from "./FormikTemplate";
+import React, {FC} from "react";
+import {changePropsOnReq, FCArguments} from "../../../ITypes";
+import {FormikTemplate} from "./FormikTemplate";
+import {elementPropsType} from "../../Vidgets/Formik/IFormikType";
 
-export const FormikInput =(props: React.InputHTMLAttributes<HTMLInputElement> &
-    IWrapperClassname & ILabelAttributes & IPropsId)=>{
+type formikInputProps=Omit<Omit<FCArguments<typeof FormikTemplate>, 'elementType'>,'elementProps'> &
+    elementPropsType<changePropsOnReq<React.InputHTMLAttributes<HTMLInputElement>,'id'>>;
 
-    return(<FormikTemplate elementType={'input'} {...props}/>)
+export const FormikInput: FC<formikInputProps> = (props) => {
+    return (<FormikTemplate  {...props} elementType={'input'}  />)
 }

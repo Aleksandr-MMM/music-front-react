@@ -1,27 +1,36 @@
 @use '../../../style/commonStyle/mixins';
 @use '../../../style/commonStyle/color';
-.auth {
-  background-color: color.$authWrapperTransparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5px;
-  margin-top: 4px;
-  opacity: 0;
-  @include mixins.authBorder;
-  @include mixins.smoothAppearanceAni;
+
+.wrapper {
+  max-width: none;
+  display: inline-block;
+  $placeholder_hover_color:white;
+  $placeholder_hover_background: rgba(0, 0, 0, 0.4);
+  @include mixins.textPlaceholder('Для подтверждения нажмите Enter.',$placeholder_hover_color,$placeholder_hover_background,
+          $placeholder_hover_color,$placeholder_hover_background,-310px);
 }
-//.wrapper{
-//  display: flex;
-//  flex-direction: column;
-//  align-items: center;
-//  max-width: 90%;
-//  min-width: 800px;
-//}
-//.textPreloader{
-//  font-size: 25px;
-//  display: flex;
-//  justify-content: center;
-//}
+
+.label {
+  display: inline-block !important;
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.input {
+  display: inline;
+  cursor: pointer;
+  text-decoration: underline;
+  width: 240px;
+}
+.icon{
+  display: inline;
+  cursor: pointer;
+  $placeholder_hover_color:white;
+  $placeholder_hover_background: rgba(0, 0, 0, 0.4);
+  @include mixins.textPlaceholder('Отменить.',$placeholder_hover_color,$placeholder_hover_background,
+          $placeholder_hover_color,$placeholder_hover_background,-100px);
+}
 
 

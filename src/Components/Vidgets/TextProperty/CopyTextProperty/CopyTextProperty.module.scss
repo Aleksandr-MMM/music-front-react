@@ -1,18 +1,6 @@
-@use '../../../style/commonStyle/mixins';
-.propertyStyle {
-  display: table;
-}
-$placeholder_hover_color:white;
-$placeholder_hover_background: rgba(0, 0, 0, 0.4);
-
-.userAfterPlaceholderCopy {
-  @include mixins.textPlaceholder('Скопировать',$placeholder_hover_color,$placeholder_hover_background,
-          $placeholder_hover_color,$placeholder_hover_background
-  );
+.copyProperty {
   display: inline;
-}
-.userAfterPlaceholderWriteCopy {
-  @include mixins.textPlaceholder('Скопировано в буфер обмена',$placeholder_hover_color,$placeholder_hover_background,
-          $placeholder_hover_color,$placeholder_hover_background);
-  display: inline;
+    &:hover {
+      cursor: pointer;
+    }
 }

@@ -1,47 +1,36 @@
 import React, {FC} from "react";
-import {useUserPhotoContainer} from "../../../../Hooks/ContainerHooks/profileHooks/useUserPhotoContainer";
-import {getUserPhoto} from "../../../../store/reducers/usersSlice";
-import {usersSliceSelectors} from "../../../../store/selectors";
-import userPhotoStyle from './User.module.scss'
+import {useUserPhotoContainer} from "../../../Hooks/ContainerHooks/useUserPhotoContainer";
+import {photoSelectors} from "../../../store/selectors";
 import {NavLink} from "react-router-dom";
-import textStyle from "../../TextProperty/TextProperty.module.scss"
-import {CopyTextProperty} from "../../TextProperty/CopyTextProperty/CopyTextProperty";
-import {changePhoto} from "../../../../store/reducers/profileSlice";
-import {IFCPropsDispatch, IFCPropsMyId, userType} from "../../../../ITypes";
-import {UserOrMyPhoto} from "../../Photo/UserPhoto/UserOrMyPhoto";
+import {IFCPropsDispatch, IFCPropsMyId, userType} from "../../../ITypes";
+import {UserOrMyPhoto} from "../Photo/UserOrMyPhoto";
+import {changePhoto, getPhoto} from "../../../store/reducers/photosSlice";
+import {TextPropertyWithLabel} from "../TextProperty/TextPropertyWithLabel/TextPropertyWithLabel";
+import userStyle from './User.module.scss'
 
-
-type UserPropsType = { id: userType['id'], nickName: userType['nickName'] } & { userCount: number }
-    & IFCPropsDispatch & IFCPropsMyId
+type UserPropsType = { id: userType['id'], nickName: userType['nickName'] } & IFCPropsDispatch & IFCPropsMyId
 export const UserPageCurrentUser: FC<UserPropsType> = (props) => {
-    const {id, nickName, dispatch, userCount, myId} = props
+    const {id, nickName, dispatch, myId} = props
     return (
-        <div className={userPhotoStyle.user}>
-            <NavLink to={`/profile/${id}`} style={{display:"inline-block"}}>
-                <UserOrMyPhoto dispatch={dispatch} id={id} myId={myId} thunk={getUserPhoto}
+        <div className={userStyle.user}>
+            <NavLink to={`/profile/${id}`} style={{display: "inline-block"}}>
+                <UserOrMyPhoto dispatch={dispatch} id={id} myId={myId} thunk={getPhoto}
                                useUserPhotoContainer={useUserPhotoContainer}
-                               photoSelectorPath={usersSliceSelectors.photo(userCount)}
-                               isLoadingSelector={usersSliceSelectors.isLoadingPhoto(userCount)}
+                               photoSelectorPath={photoSelectors.path(id)}
+                               isLoadingSelector={photoSelectors.isLoading(id)}
                                wrapper={{
-                                   elementClassname: userPhotoStyle.userPhotoHover,
                                    onClick: (photo) => {
-                                       dispatch(changePhoto(photo))
+                                       dispatch(changePhoto({url: photo, id: id}))
                                    }}}/>
             </NavLink>
-            <CopyTextProperty text={id} propertyStyle={{
-                style: {marginTop: '5px'},
-                className: {
-                    copy: textStyle.userAfterPlaceholderCopy,
-                    writeCopy: textStyle.userAfterPlaceholderWriteCopy
-                }
-            }}/>
-            <CopyTextProperty text={nickName} propertyStyle={{
-                style: {marginTop: '5px'},
-                className: {
-                    copy: textStyle.userAfterPlaceholderCopy,
-                    writeCopy: textStyle.userAfterPlaceholderWriteCopy
-                }
-            }}/>
+            <div className={userStyle.userPropertyWrapper}>
+                <TextPropertyWithLabel discriminant={'textWithCopy'} text={id ? id : 'id не найден'}
+                                       wrapper={{className:userStyle.propertyWrapper}}
+                                       labelElement={{children:'Уникальный id пользователя :'}}/>
+                <TextPropertyWithLabel discriminant={'textWithCopy'} text={nickName ? nickName : 'Новый пользователь'}
+                                       wrapper={{className:userStyle.propertyWrapper}}
+                                       labelElement={{children:'Никнейм/имя пользователя :'}}/>
+            </div>
         </div>
     );
 };

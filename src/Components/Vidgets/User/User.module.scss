@@ -1,14 +1,24 @@
-@use '../../../../style/commonStyle/color';
-@use '../../../../style/commonStyle/mixins';
+@use '../../../style/commonStyle/color';
+@use '../../../style/commonStyle/mixins';
+
 .user {
   @include mixins.authBorder;
+  @include mixins.smoothAppearanceAni(2s);
+  @include mixins.addMarginTopAllChildren();
   border-color: color.$borderAuthColor;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  margin-top: 10px;
-  background: color.$wrapperPaleBlue;
+  $padding: 10px;
+  padding: $padding;
+  background: color.$authWrapperTransparent;
 }
-.userPhotoHover{
-  cursor: pointer;
+
+.propertyWrapper {
+  display: flex;
+  @include mixins.addMinSizeFirstChild(300px);
+  span {
+    font-weight: bold;
+    cursor: default;
+  }
+}
+.userPropertyWrapper{
+  @include mixins.addMarginTopAllChildren(5px);
 }

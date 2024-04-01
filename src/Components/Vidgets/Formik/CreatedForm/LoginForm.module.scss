@@ -1,18 +1,14 @@
-@use '../../../../style/SCSS/mixins';
-.FormikFormWrapper{
-  padding-top: 10px;
-  @include mixins.smoothAppearanceAni;
+@use '../../../../style/commonStyle/mixins';
+.formWrapper{
+  @include mixins.smoothAppearanceAni();
+  @include mixins.addMarginTopAllChildren();
+  @include mixins.FormikFormAlign();
   h2{
-    margin-bottom: 10px;
     display: flex;
     justify-content: center;
   }
 }
-.FormikInputWrapper {
+.inputWrapper {
   display: flex;
-  div{
-    &:nth-child(even){
-      margin-left: 20px;
-    }
-  }
+  @include mixins.addMarginLeftAllChildren(20px);
 }

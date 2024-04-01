@@ -1,8 +1,11 @@
-.nav {
+@use "../../../style/commonStyle/color";
+@use '../../../style/commonStyle/mixins';
+.wrapper {
+  @include mixins.authBorder;
+  @include mixins.smoothAppearanceAni(2s);
+  border-color: color.$borderAuthColor;
+  display:flex;
+  justify-content: center;
+  background: color.$authWrapperTransparent;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.8);
-  position: absolute;
-  transition: all 0.3s ease-in;
-  width: 140px;
-  z-index: 1000;
 }

@@ -1,31 +1,33 @@
-import React, {useState} from "react";
-import {NavLink} from "react-router-dom";
+import React, {FC} from "react";
 import style from './NavBar.module.scss'
-import linkStyle from '../../../style/Link/LinkLightTheme.module.scss'
+import {Burger} from "../../Vidgets/Burger/Burger";
+import {IFCPropsDispatch} from "../../../ITypes";
+import {BaseLink} from "../../Vidgets/Link/BaseLink";
+import {UrlConstant} from "../../../Constants";
+import useNavbarContainer from "../../../Hooks/ContainerHooks/useNavbarContainer";
+import {ElementEvents} from "../../../events/ElementEvents";
+import {createPortal} from "react-dom";
 
-const CreateNavLink: React.ElementType=(path: string,linkName:string)=>{
-    return(
-        <NavLink to={path} style={{display: "block"}}
-                 className={(navData) => (navData.isActive ? linkStyle.linkActive : linkStyle.link)}>
-            {linkName}
-        </NavLink>
+export const Navbar: FC<IFCPropsDispatch> = (props) => {
+    const {dispatch} = props
+    const {isNavbar, openNavbar, myAccId, location} = useNavbarContainer()
+    return ( createPortal(
+            <div className={style.navWrapper}>
+                <Burger isNavbar={isNavbar} openNavbar={openNavbar}/>
+                <nav className={style.nav} style={{left: isNavbar ? '-160px' : 0}}>
+                    <BaseLink path={`${UrlConstant.profile}/${myAccId}`} navLinkName={'Мой профиль'}
+                              styleNavLink={{
+                                  style: {
+                                      display: 'block',
+                                      pointerEvents: location.slice(UrlConstant.profile.length + 1) !== myAccId ? "visible" : 'none'
+                                  }
+                              }}
+                              onClick={ElementEvents.NavLink.toProfile(dispatch,
+                                  location.slice(UrlConstant.profile.length + 1) === myAccId)}/>
+                    <BaseLink navLinkName={'Поиск'} path={`${UrlConstant.find}${UrlConstant.users}`}
+                              styleNavLink={{style: {display: 'block'}}}/>
+                </nav>
+            </div>
+            , document.body)
     )
-}
-export const Navbar: React.ElementType = () => {
-    const [isNavbar, openNavbar] = useState(false)
-    return (<nav className={style.nav} style={{left: isNavbar ? -117 : 0}}>
-        <CreateNavLink path={'/profile'} linkName={'Мой профиль'}/>
-        <NavLink to={'/profile'} style={{display: "block"}}
-                 className={(navData) => (navData.isActive ? linkStyle.linkActive : linkStyle.link)}>
-            Мой профиль
-        </NavLink>
-        <NavLink to={'/friends'} style={{display: "block"}}
-                 className={(navData) => (navData.isActive ? linkStyle.linkActive : linkStyle.link)}>
-            Друзья
-        </NavLink>
-        <button className={style.hideButton} onClick={() => openNavbar(!isNavbar)}>
-            кнопка
-        </button>
-
-    </nav>)
 }

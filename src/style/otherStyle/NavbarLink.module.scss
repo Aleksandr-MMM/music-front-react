@@ -1,5 +1,5 @@
-@use '../SCSS/mixins';
-@use '../SCSS/color';
+@use '../commonStyle/mixins';
+@use '../commonStyle/color';
 $fontWeight: bolder;
 .link {
     @include mixins.authLink(color.$buttonBlue);

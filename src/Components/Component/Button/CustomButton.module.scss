@@ -1,6 +1,6 @@
-@use "../../../style/SCSS/color";
+@use "../../../style/commonStyle/color";
 
-.customButtonDefault {
+.buttonDefaultStyle {
   $padding: 5px;
   padding: $padding - 1 $padding;
   background-color: color.$buttonBlue;

@@ -1,16 +1,15 @@
 import {useReduxSelector} from "../../../store/reduxStore";
 import {trackSelectors} from "../../../store/selectors";
-import {useEffect, useState} from "react";
-import {getFile, trackSliceType} from "../../../store/reducers/trackSlice";
-import {IFCPropsDispatch} from "../../../ITypes";
+import {useEffect} from "react";
+import {getTrackById, trackSliceType} from "../../../store/reducers/trackSlice";
+import {AppDispatch} from "../../../ITypes";
 
-export const useTrackLoaderContainer = (trackId: trackSliceType["tracks"][number]["id"],dispatch:IFCPropsDispatch['dispatch']) => {
-    const isLoadingFileStatus = useReduxSelector(trackSelectors.isLoading(trackId))
-    const [isDisplayPreloader, changePreloader] = useState(false);
+export const useFindTrackByIdContainer = (trackId: trackSliceType["tracks"][number]["id"], dispatch: AppDispatch) => {
+    const track = useReduxSelector(trackSelectors.currentTrack(trackId))
     useEffect(() => {
-        if (isDisplayPreloader && trackId) {
-            dispatch(getFile(trackId))
+        if (trackId && track?.id !== trackId) {
+            dispatch(getTrackById(trackId))
         }
-    }, [isDisplayPreloader, trackId, dispatch]);
-    return [isLoadingFileStatus,isDisplayPreloader,changePreloader] as const
+    }, [trackId, dispatch, track?.id]);
+    return [track] as const
 };

@@ -1,16 +1,15 @@
 import {useEffect} from "react";
-import {AppDispatch} from "../../../ITypes/IReduxTypes";
-import {getUserPhoto} from "../../../store/reducers/profileSlice";
+import {AppDispatch} from "../../../ITypes";
 import {useReduxSelector} from "../../../store/reduxStore";
-import {userSliceSelectors} from "../../../store/selectors";
+import {authSliceSelectors, usersSliceSelectors} from "../../../store/selectors";
+import {getUsers} from "../../../store/reducers/usersSlice";
 
-export const useUserPhotoContainer = (dispatch: AppDispatch,id:string|null) => {
+export const useUsersContainer = (dispatch: AppDispatch) => {
     useEffect(() => {
-        if (id) {
-            dispatch(getUserPhoto(id))
-        }
-    }, [dispatch,id])
+            dispatch(getUsers())
+    }, [dispatch])
     return {
-        photo: useReduxSelector(userSliceSelectors.photo()),
+        users: useReduxSelector(usersSliceSelectors.users()),
+        myId:useReduxSelector(authSliceSelectors.id())
     }
 }

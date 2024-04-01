@@ -1,9 +1,12 @@
-import FormikTemplate from "./FormikTemplate";
-import React from "react";
-import {ILabelAttributes, IPropsId, IWrapperClassname} from "../../../ITypes/BaseHtmlTypes";
+import React, {FC} from "react";
+import {changePropsOnReq, FCArguments} from "../../../ITypes";
+import {FormikTemplate} from "./FormikTemplate";
+import {elementPropsType} from "../../Vidgets/Formik/IFormikType";
 
-export const FormikTextarea =(props: React.TextareaHTMLAttributes<HTMLTextAreaElement> &
-    IWrapperClassname & ILabelAttributes & IPropsId)=>{
+type formikInputProps=Omit<Omit<FCArguments<typeof FormikTemplate>, 'elementType'>,'elementProps'> &
+    elementPropsType<changePropsOnReq<React.TextareaHTMLAttributes<HTMLTextAreaElement>,'id'>>;
 
-    return(<FormikTemplate elementType={'textarea'} {...props}/>)
+
+export const FormikTextarea: FC<formikInputProps> = (props) => {
+    return (<FormikTemplate {...props} elementType='textarea' />)
 }

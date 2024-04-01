@@ -5,7 +5,7 @@ import {authSliceSelectors} from "../../store/selectors";
  */
 export default function useRegistrationFormContainer() {
     return {
-        regErrorMess:useReduxSelector(state => authSliceSelectors.regErrorMess(state)),
-        isDisableButton:useReduxSelector(state => authSliceSelectors.isDisableButton(state)),
+        regErrorMess:useReduxSelector(authSliceSelectors.regErrorMess()),
+        isDisableButton:useReduxSelector(authSliceSelectors.isDisableButton()),
     }
 }

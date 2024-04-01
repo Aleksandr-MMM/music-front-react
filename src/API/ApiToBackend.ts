@@ -1,7 +1,8 @@
 import {LocalPersistenceService} from "../helpers/LocalPersistenceService";
 import axios, {AxiosError, AxiosInstance} from "axios";
-import {baseResponse, profileResponseType, userPhotoResponseType} from "../ITypes/backend";
+import {albumResponseType, baseResponse, profileResponseType} from "../ITypes";
 import {ApiStream} from "./ApiStream";
+import {checkStatusCodeException} from "../helpers/Exception/CheckStatusCodeException";
 
 /**
  * Класс содержит метод создания instance ,instance,
@@ -9,9 +10,8 @@ import {ApiStream} from "./ApiStream";
  * А также static public сеттер для обновленя Bearer токена
  */
 class CreateInstanceAxios extends LocalPersistenceService {
-
-    // baseURL: 'https://nestserver16-vijm0soi.b4a.run',
-    private static readonly baseURL = 'http://localhost:5000'
+    // private static readonly baseURL = 'http://localhost:5000'
+    private static readonly baseURL = 'https://nestserver16-vijm0soi.b4a.run'
     private static bearerToken: string | null = LocalPersistenceService.getBearerToken
 
     protected static get getBearerToken() {
@@ -102,9 +102,10 @@ class CreateInstanceAxios extends LocalPersistenceService {
  * Используются перехватчик request & response для обработки ошибок.
  */
 export class AxiosApi extends CreateInstanceAxios {
-    private static async  updateProperty<T extends Partial<profileResponseType>>(obj: T){
-        return await AxiosApi.instance.put<baseResponse<T>>(`user/updateProperty`, obj)
+    private static async updateProperty<T extends Partial<profileResponseType>>(obj: T) {
+        return await AxiosApi.instance.put<baseResponse<profileResponseType>>(`user/updateProperty`, obj)
     }
+
     /**
      * Методы авторизации
      */
@@ -141,11 +142,92 @@ export class AxiosApi extends CreateInstanceAxios {
     /**
      * Методы для работы с пользователями
      */
-    public static user = {
+    public static profile = {
         // need fix
         async getProfile(userId: string) {
             return await AxiosApi.instance.get<baseResponse<profileResponseType>>(`user/${userId}`)
         },
+        async subscribeUser(userId: string) {
+            return await AxiosApi.instance.put<baseResponse<string[]>>(`user/subscribe/${userId}`)
+        },
+        async unSubscribeUser(userId: string) {
+            return await AxiosApi.instance.delete<baseResponse<profileResponseType>>(`user/unSubscribe/${userId}`)
+        },
+        async addNewFriend(userId: string) {
+            return await AxiosApi.instance.put<baseResponse<profileResponseType>>(`user/addFriend/${userId}`)
+        },
+        async deleteFriend(userId: string) {
+            return await AxiosApi.instance.delete<baseResponse<profileResponseType>>(`user/unFriend/${userId}`)
+        },
+        async putStatus(status: string) {
+            return AxiosApi.updateProperty({status: status})
+        },
+        async putNickName(nickName: string) {
+            return AxiosApi.updateProperty({nickName: nickName})
+        },
+    }
+    public static users = {
+        async getUsers() {
+            return await AxiosApi.instance.get<baseResponse<{ id: string, nickName: string }[]>>(`user`)
+        },
+    }
+    public static tracks = {
+        async getEntity() {
+            return await AxiosApi.instance.get<baseResponse<{
+                id: string, "trackName": null | string,
+                "author": null | string,
+                "dateOfCreation": string,
+                "lastUpdate": string,
+            }[]>>(`track`)
+        },
+        async getTrackById(trackId: string) {
+            return await AxiosApi.instance.get<baseResponse<{
+                id: string, "trackName": null | string,
+                "author": null | string,
+                "dateOfCreation": string,
+                "lastUpdate": string,
+            }>>(`track/${trackId}`)
+        },
+        // async createFile() {
+        //     const response = await fetch(`http://localhost:5000/track`, {
+        //         method: 'GET', headers: {
+        //             authorization:
+        //                 `Bearer ${CreateInstanceAxios.getBearerToken}`
+        //         }
+        //     })
+        //     checkStatusCodeException(response.status, 'photo not found.')
+        //     return ApiStream.readReadableStream(response)
+        // },
+        async getFile(id: string) {
+            const response = await fetch(`https://nestserver16-vijm0soi.b4a.run/track/file/${id}`, {
+                method: 'GET', headers: {
+                    authorization:
+                        `Bearer ${CreateInstanceAxios.getBearerToken}`
+                }
+            })
+            checkStatusCodeException(response.status, 'file not found.')
+            return ApiStream.readReadableStream(response)
+        },
+
+    }
+    public static album = {
+        async getAlbumById(albumId: string) {
+            return await AxiosApi.instance.get<baseResponse<albumResponseType>>(`album/${albumId}`)
+        },
+        async getMyAlbums() {
+            return await AxiosApi.instance.get<baseResponse<albumResponseType[]>>(`album/myAlbums`)
+        },
+        async addTrackInMyAlbum(albumId: string, trackList: albumResponseType['trackList']) {
+            return await AxiosApi.instance.put<baseResponse<albumResponseType>>(`album/track/${albumId}`, {trackList})
+        },
+        async delTrackInMyAlbum(albumId: string, trackList: albumResponseType['trackList']) {
+            return await AxiosApi.instance.delete<baseResponse<null>>(`album/track/${albumId}`, {data: {trackList}})
+        },
+        async createNewPlaylist(albumName: string) {
+            return await AxiosApi.instance.post<baseResponse<profileResponseType>>(`album`, {albumName})
+        },
+    }
+    public static photo = {
         async getPhoto(userId: string): Promise<string | null> {
             const response = await fetch(`http://localhost:5000/user/photo/${userId}`, {
                 method: 'GET', headers: {
@@ -153,16 +235,13 @@ export class AxiosApi extends CreateInstanceAxios {
                         `Bearer ${CreateInstanceAxios.getBearerToken}`
                 }
             })
+            checkStatusCodeException(response.status, 'photo not found.')
             return ApiStream.readReadableStream(response)
         },
-        async sendPhoto(userId: string) {
-            return await AxiosApi.instance.post<baseResponse<userPhotoResponseType>>(`user/addPhoto`)
-        },
-        async putStatus(status: string) {
-            return AxiosApi.updateProperty({status:status})
-        },
-        async putNickName(nickName: string) {
-            return AxiosApi.updateProperty({nickName:nickName})
+        async sendPhoto(file: File) {
+            return await AxiosApi.instance.post<baseResponse<{ isAttachment: boolean }>>(
+                `user/addPhoto`, {"photo": file},{headers:{"Content-Type":"multipart/form-data;"}})
         },
     }
+
 }

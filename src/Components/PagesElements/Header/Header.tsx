@@ -1,18 +1,23 @@
-import React from "react";
+import React, {FC} from "react";
 import {Logo} from "../../Component/Logo/Logo";
 import useHeaderContainer from "../../../Hooks/ContainerHooks/useHeaderContainer";
 import {Logout} from "../../Component/Logout/Logout";
-import {IDispatchInProps} from "../../../ITypes/BaseHtmlTypes";
 import style from './Header.module.scss'
-export const Header: React.ElementType<IDispatchInProps> = (props: IDispatchInProps) => {
-    const {dispatch}=props
-    const {myEmail,userId} = useHeaderContainer()
-    return (<header className={style.header}>
+import {IFCPropsDispatch} from "../../../ITypes";
 
-        <Logo/>
-        <p>
-            {myEmail}
-        </p>
-        <Logout dispatch={dispatch}/>
+export const Header: FC<IFCPropsDispatch> = (props) => {
+    const {dispatch} = props
+    const {myEmail} = useHeaderContainer()
+    return (<header className={style.header}>
+        <Logo element={{style: {width: '100px'}}}/>
+        <h1 className={style.fancy}>
+            MUSIC WAVE
+        </h1>
+        <div>
+            <p>
+                {myEmail}
+            </p>
+            <Logout dispatch={dispatch}/>
+        </div>
     </header>)
 }
